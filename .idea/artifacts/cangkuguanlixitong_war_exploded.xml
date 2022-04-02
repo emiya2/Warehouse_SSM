@@ -1,6 +1,14 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="cangkuguanlixitong:war exploded">
     <output-path>$PROJECT_DIR$/target/cangkuguanlixitong</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>cangkuguanlixitong</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
