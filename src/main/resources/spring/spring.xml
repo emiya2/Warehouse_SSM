@@ -7,6 +7,9 @@
     <!-- 引入属性文件 -->
     <context:property-placeholder location="classpath:config.properties"/>
 
+    <!--开启注解驱动-->
+    <context:annotation-config />
+
     <!-- Service包(自动注入) -->
     <context:component-scan base-package="com.service"/>
 

@@ -54,7 +54,7 @@ public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> impleme
 
 	@Override
 	public String generateToken(Integer userid,String username, String tableName, String role) {
-		TokenEntity tokenEntity = this.selectOne(new EntityWrapper<TokenEntity>().eq("userid", userid).eq("role", role));
+		TokenEntity tokenEntity = this.selectOne(new EntityWrapper<TokenEntity>().eq("userid", userid).eq("role", role));  //在数据库中查询是否有相关的记录
 		String token = CommonUtil.getRandomString(32);
 		Calendar cal = Calendar.getInstance();   
     	cal.setTime(new Date());   
@@ -62,9 +62,9 @@ public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> impleme
 		if(tokenEntity!=null) {
 			tokenEntity.setToken(token);
 			tokenEntity.setExpiratedtime(cal.getTime());
-			this.updateById(tokenEntity);
+			this.updateById(tokenEntity);		//修改数据库中的token字段
 		} else {
-			this.insert(new TokenEntity(userid,username, tableName, role, token, cal.getTime()));
+			this.insert(new TokenEntity(userid,username, tableName, role, token, cal.getTime()));	//若查询记录为空,则在表中插入
 		}
 		return token;
 	}

@@ -31,7 +31,10 @@ public class UserEntity implements Serializable {
 	 * 用户类型
 	 */
 	private String role;
-	
+
+	/**
+	 *  创建时间
+	 */
 	private Date addtime;
 
 	public String getUsername() {

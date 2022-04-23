@@ -1,13 +1,22 @@
 package com.controller;
 
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import com.alibaba.fastjson.JSONObject;
 import java.util.*;
+
+import com.utils.GraphicHelper;
 import org.springframework.beans.BeanUtils;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.ContextLoader;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.service.TokenService;
 import com.utils.StringUtil;
 import java.lang.reflect.InvocationTargetException;
@@ -176,7 +185,15 @@ public class YonghuController {
     */
     @IgnoreAuth
     @RequestMapping(value = "/login")
-    public R login(String username, String password, String captcha, HttpServletRequest request) {
+    public R login(String username, String password, String captcha, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String inputCode=(String) request.getParameter("verifyCode");
+
+        String verifyCode= (String)request.getSession().getAttribute("verifyCode");
+        if((inputCode == "") || !inputCode.equalsIgnoreCase(verifyCode)){
+            System.out.println("验证码输入错误");
+            return R.error("验证码输入错误");
+        }
+
         YonghuEntity yonghu = yonghuService.selectOne(new EntityWrapper<YonghuEntity>().eq("username", username));
         if(yonghu==null || !yonghu.getPassword().equals(password)) {
             return R.error("账号或密码不正确");
@@ -242,7 +259,36 @@ public class YonghuController {
         return R.ok("退出成功");
     }
 
+   /* *//*固定页面大小，以及处理验证码的使用场景，捕获页面生成的验证码*//*
+    @IgnoreAuth
+    @RequestMapping("/verify")
+    public R createVerifyCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 获得 当前请求 对应的 会话对象
+        HttpSession session = request.getSession();
+        if(session.getAttribute("verifyCode") !=null || session.getAttribute("verifyCode") !=""){
+            session.removeAttribute("verifyCode");
+            System.out.println("清除已存在的验证码");
+        }
+        // 从请求中获得 URI ( 统一资源标识符 )
+        String uri = request.getRequestURI();
 
-
+        System.out.println("hello : " + uri);
+        final int width = 180; // 图片宽度
+        final int height = 40; // 图片高度
+        final String imgType = "jpeg"; // 指定图片格式 (不是指MIME类型)
+        final OutputStream output = response.getOutputStream(); // 获得可以向客户端返回图片的输出流
+        // (字节流)
+        // 创建验证码图片并返回图片上的字符串
+        String code = GraphicHelper.create(width, height, imgType, output);
+        System.out.println("验证码内容: " + code);
+        // 建立 uri 和 相应的 验证码 的关联 ( 存储到当前会话对象的属性中 )
+        session.setAttribute("verifyCode", code);
+        if (session.getAttribute("verifyCode") != null || session.getAttribute("verifyCode") != "null") {
+            System.out.println("页面生成的验证码为" + session.getAttribute("verifyCode"));
+            return R.ok();
+        }
+        return R.error("页面验证码不存在");
+    }
+*/
 }
 

@@ -69,7 +69,7 @@
                 </div>
                 <ol id="breadcrumb" class="breadcrumb page-breadcrumb pull-right">
                     <li>
-						<i class="fa fa-home"></i>&nbsp;<a href="#">主页</a>
+						<i class="fa fa-home"></i>&nbsp;<a href="index.jsp">主页</a>
 					</li>
                 </ol>
                 <div class="clearfix"></div>
@@ -116,7 +116,7 @@
 			var token = window.sessionStorage.getItem("token");
 			if (token == "null" || token == null) {
 				alert("请登录后再操作");
-				window.location.href = ("jsp/login.jsp");
+				window.location.href= ("./jsp/login.jsp");
 			}
 			setMenu();
 

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -135,7 +136,7 @@ public class CommonController{
 	 */
 	@RequestMapping("/follow/{tableName}/{columnName}")
 	@IgnoreAuth
-	public R getFollowByOption(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName, @RequestParam String columnValue) {
+	public R getFollowByOption(@PathVariable("tableName") String tableName, @PathVariable("columnName") String columnName,@Nullable @RequestParam String columnValue) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("table", tableName);
 		params.put("column", columnName);

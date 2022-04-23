@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dao.CommonDao">
-	<select id="getOption" resultType="String" >
+
+	<select id="getOption" resultType="string" >
 		SELECT distinct ${column} FROM ${table} 
 			where ${column} is not null and ${column} !=''
 			<if test = "level != null"> 
@@ -54,15 +55,30 @@
 				</if>
 			</if>
 							</select>
-	
+
+	<!--
+
+		分组求和
+
+	-->
 	<select id="selectCal" resultType="map" >
 		SELECT sum(${column}) sum,max(${column}) max,min(${column}) min,avg(${column}) avg FROM ${table}
 	</select>
-	
+
+	<!--
+
+		分组统计
+
+	-->
 	<select id="selectGroup" resultType="map" >
 		SELECT ${column} , count(1) total FROM ${table} group by ${column}
 	</select>
-	
+
+	<!--
+
+		按值统计
+
+	-->
 	<select id="selectValue" resultType="map" >
 		SELECT ${xColumn}, sum(${yColumn}) total FROM ${table} group by ${xColumn}
 	</select>
@@ -75,6 +91,10 @@
 
 	-->
 
+	<!--
+		新的级联字典表的   分组求和方法
+
+	-->
 	<select id="newSelectGroupSum" resultType="map">
 
 		select
@@ -86,6 +106,11 @@
 		GROUP BY a.${groupColumn}
 	</select>
 
+	<!--
+
+		新的级联字典表的   分组条数统计统计方法方法
+
+	-->
 	<select id="newSelectGroupCount" resultType="map">
 
 		select
@@ -98,6 +123,10 @@
 	</select>
 
 
+	<!--
+		当前表的日期分组求和
+
+	-->
 	<select id="newSelectDateGroupSum" resultType="map">
 --
 		select
@@ -109,6 +138,11 @@
 
 	</select>
 
+	<!--
+
+		查询字典表的分组统计总条数
+
+	-->
 	<select id="newSelectDateGroupCount" resultType="map">
 
 		select
@@ -118,6 +152,10 @@
 		group by date_format(${groupColumn}, #{dateFormat});
 	</select>
 
+	<!--
+
+		增加字段值
+	-->
 	<update id="plusCloumNumber">
 		update ${tableName}
 			set ${column} = ${column}+#{number}
@@ -125,6 +163,11 @@
 			id = #{id}
 	</update>
 
+	<!--
+
+		减少字段值
+
+	-->
 	<update id="reduceCloumNumber">
 		update ${tableName}
 			set ${column} = ${column}-#{number}
@@ -133,6 +176,9 @@
 	</update>
 
 
+	<!--
+		修改字段值
+	-->
 	<update id="updateCloumValue">
 		update ${tableName}
 			set #{column} = #{value}

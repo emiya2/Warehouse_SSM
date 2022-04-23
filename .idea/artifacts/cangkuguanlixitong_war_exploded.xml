@@ -71,6 +71,8 @@
           <element id="library" level="project" name="Maven: org.apache.poi:poi-excelant:3.11-beta2" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant:1.8.2" />
           <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.8.2" />
+          <element id="library" level="project" name="Maven: com.github.axet:kaptcha:0.0.9" />
+          <element id="library" level="project" name="Maven: com.jhlabs:filters:2.0.235" />
         </element>
       </element>
       <element id="directory" name="META-INF">
